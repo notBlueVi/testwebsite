@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Furisoa AI</title>
+
+<style>
+:root {
+  --bg-dark: #000;
+  --text-dark: #fff;
+  --bg-light: #f5f5f7;
+  --text-light: #111;
+  --accent: #0071e3;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  transition: background 0.5s ease, color 0.5s ease;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body.dark { background: var(--bg-dark); color: var(--text-dark); }
+body.light { background: var(--bg-light); color: var(--text-light); }
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  backdrop-filter: blur(20px);
+  z-index: 1000;
+}
+
+.toggle {
+  cursor: pointer;
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: 1px solid #aaa;
+  font-size: 14px;
+}
+
+/* HERO */
+header {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+header p {
+  font-size: 1.3rem;
+  opacity: 0.7;
+  margin-top: 15px;
+}
+
+/* COUNTDOWN */
+.countdown {
+  display: flex;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.countdown span {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+/* SECTIONS */
+section {
+  padding: 140px 20px;
+  max-width: 1200px;
+  margin: auto;
+  text-align: center;
+}
+
+/* GLASS CARDS */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 60px;
+}
+
+.card {
+  width: 300px;
+  padding: 40px 30px;
+  border-radius: 25px;
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.card:hover {
+  transform: translateY(-15px) scale(1.03);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+}
+
+.card h3 {
+  font-size: 1.5rem;
+}
+
+.card p {
+  margin-top: 15px;
+  opacity: 0.7;
+}
+
+/* SCROLL ANIMATION */
+.reveal {
+  opacity: 0;
+  transform: translateY(80px);
+  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+
+<body class="dark">
+
+<canvas id="particles"></canvas>
+
+<nav>
+  <h2>Furisoa AI</h2>
+  <div class="toggle" onclick="toggleMode()">Toggle Mode</div>
+</nav>
+
+<header>
+  <h1>Furisoa AI</h1>
+  <p>The Next Evolution of Intelligence.</p>
+
+  <div class="countdown">
+    <div><span id="days">0</span><br>Days</div>
+    <div><span id="hours">0</span><br>Hours</div>
+    <div><span id="minutes">0</span><br>Minutes</div>
+    <div><span id="seconds">0</span><br>Seconds</div>
+  </div>
+</header>
+
+<section class="reveal">
+  <h2>Introducing Our Next Product</h2>
+  <p style="opacity:0.7; margin-top:20px;">
+    Designed with precision. Powered by intelligence. Built for the future.
+  </p>
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>⚡ Neural Core X</h3>
+      <p>Ultra-fast AI processing engine delivering real-time intelligence.</p>
+    </div>
+
+    <div class="card">
+      <h3>🧠 Adaptive Mind</h3>
+      <p>Self-learning architecture that evolves with your needs.</p>
+    </div>
+
+    <div class="card">
+      <h3>🌐 Global Sync</h3>
+      <p>Seamless cloud integration across every device and platform.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>Engineered Like No Other</h2>
+  <p style="opacity:0.7; margin-top:20px; max-width:800px; margin:auto;">
+    Every detail is refined. Every interaction is fluid. Furisoa AI blends 
+    hardware-level performance with software-level intelligence to create 
+    a seamless digital experience inspired by world-class design philosophy.
+  </p>
+</section>
+
+<script>
+// DARK LIGHT
+function toggleMode() {
+  document.body.classList.toggle("dark");
+  document.body.classList.toggle("light");
+}
+
+// COUNTDOWN
+const launchDate = new Date("July 1, 2026 00:00:00").getTime();
+setInterval(() => {
+  const now = new Date().getTime();
+  const distance = launchDate - now;
+
+  document.getElementById("days").innerText = Math.floor(distance / (1000*60*60*24));
+  document.getElementById("hours").innerText = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+  document.getElementById("minutes").innerText = Math.floor((distance % (1000*60*60)) / (1000*60));
+  document.getElementById("seconds").innerText = Math.floor((distance % (1000*60)) / 1000);
+}, 1000);
+
+// SCROLL REVEAL
+function reveal() {
+  const reveals = document.querySelectorAll(".reveal");
+  reveals.forEach(element => {
+    const windowHeight = window.innerHeight;
+    const elementTop = element.getBoundingClientRect().top;
+    if (elementTop < windowHeight - 100) {
+      element.classList.add("active");
+    }
+  });
+}
+window.addEventListener("scroll", reveal);
+
+// PARTICLES
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+for (let i = 0; i < 120; i++) {
+  particles.push({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    size: Math.random()*2,
+    speedX: Math.random()*0.4-0.2,
+    speedY: Math.random()*0.4-0.2
+  });
+}
+
+function animateParticles() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p => {
+    p.x += p.speedX;
+    p.y += p.speedY;
+
+    if(p.x<0||p.x>canvas.width) p.speedX*=-1;
+    if(p.y<0||p.y>canvas.height) p.speedY*=-1;
+
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    ctx.fillStyle="rgba(255,255,255,0.6)";
+    ctx.fill();
+  });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+</script>
+
+</body>
+</html>
