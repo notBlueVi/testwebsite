@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Furisoa AI</title>
-<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -18,20 +17,22 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  transition: background 0.4s ease, color 0.4s ease;
+  transition: background 0.5s ease, color 0.5s ease;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
-body.dark {
-  background: var(--bg-dark);
-  color: var(--text-dark);
+body.dark { background: var(--bg-dark); color: var(--text-dark); }
+body.light { background: var(--bg-light); color: var(--text-light); }
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 
-body.light {
-  background: var(--bg-light);
-  color: var(--text-light);
-}
-
+/* NAV */
 nav {
   position: fixed;
   width: 100%;
@@ -42,18 +43,15 @@ nav {
   z-index: 1000;
 }
 
-nav h2 {
-  font-weight: 600;
-}
-
 .toggle {
   cursor: pointer;
   padding: 8px 18px;
   border-radius: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #aaa;
   font-size: 14px;
 }
 
+/* HERO */
 header {
   height: 100vh;
   display: flex;
@@ -70,20 +68,16 @@ header h1 {
 }
 
 header p {
-  font-size: 1.4rem;
-  margin-top: 20px;
-  opacity: 0.8;
+  font-size: 1.3rem;
+  opacity: 0.7;
+  margin-top: 15px;
 }
 
+/* COUNTDOWN */
 .countdown {
   display: flex;
   gap: 30px;
   margin-top: 40px;
-  font-size: 1.2rem;
-}
-
-.countdown div {
-  text-align: center;
 }
 
 .countdown span {
@@ -91,34 +85,57 @@ header p {
   font-weight: 600;
 }
 
-button.primary {
-  margin-top: 40px;
-  padding: 14px 32px;
-  border-radius: 30px;
-  border: none;
-  background: var(--accent);
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-button.primary:hover {
-  opacity: 0.85;
-}
-
+/* SECTIONS */
 section {
-  padding: 120px 20px;
-  text-align: center;
-  max-width: 900px;
+  padding: 140px 20px;
+  max-width: 1200px;
   margin: auto;
+  text-align: center;
 }
 
-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -1;
+/* GLASS CARDS */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 60px;
+}
+
+.card {
+  width: 300px;
+  padding: 40px 30px;
+  border-radius: 25px;
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.card:hover {
+  transform: translateY(-15px) scale(1.03);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+}
+
+.card h3 {
+  font-size: 1.5rem;
+}
+
+.card p {
+  margin-top: 15px;
+  opacity: 0.7;
+}
+
+/* SCROLL ANIMATION */
+.reveal {
+  opacity: 0;
+  transform: translateY(80px);
+  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>
 </head>
@@ -142,75 +159,108 @@ canvas {
     <div><span id="minutes">0</span><br>Minutes</div>
     <div><span id="seconds">0</span><br>Seconds</div>
   </div>
-
-  <button class="primary">Coming July 2026</button>
 </header>
 
-<section>
-  <h2>Designed for the Future</h2>
-  <p style="margin-top:20px; font-size:18px; opacity:0.8;">
-    Furisoa AI combines performance, intelligence, and minimalism into a seamless digital experience — inspired by precision engineering and elegant simplicity.
+<section class="reveal">
+  <h2>Introducing Our Next Product</h2>
+  <p style="opacity:0.7; margin-top:20px;">
+    Designed with precision. Powered by intelligence. Built for the future.
+  </p>
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>⚡ Neural Core X</h3>
+      <p>Ultra-fast AI processing engine delivering real-time intelligence.</p>
+    </div>
+
+    <div class="card">
+      <h3>🧠 Adaptive Mind</h3>
+      <p>Self-learning architecture that evolves with your needs.</p>
+    </div>
+
+    <div class="card">
+      <h3>🌐 Global Sync</h3>
+      <p>Seamless cloud integration across every device and platform.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>Engineered Like No Other</h2>
+  <p style="opacity:0.7; margin-top:20px; max-width:800px; margin:auto;">
+    Every detail is refined. Every interaction is fluid. Furisoa AI blends 
+    hardware-level performance with software-level intelligence to create 
+    a seamless digital experience inspired by world-class design philosophy.
   </p>
 </section>
 
 <script>
-// Dark / Light Toggle
+// DARK LIGHT
 function toggleMode() {
   document.body.classList.toggle("dark");
   document.body.classList.toggle("light");
 }
 
-// Countdown to July 1, 2026
+// COUNTDOWN
 const launchDate = new Date("July 1, 2026 00:00:00").getTime();
-
-setInterval(function() {
+setInterval(() => {
   const now = new Date().getTime();
   const distance = launchDate - now;
 
-  document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
-  document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
+  document.getElementById("days").innerText = Math.floor(distance / (1000*60*60*24));
+  document.getElementById("hours").innerText = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+  document.getElementById("minutes").innerText = Math.floor((distance % (1000*60*60)) / (1000*60));
+  document.getElementById("seconds").innerText = Math.floor((distance % (1000*60)) / 1000);
 }, 1000);
 
-// Particle Background
+// SCROLL REVEAL
+function reveal() {
+  const reveals = document.querySelectorAll(".reveal");
+  reveals.forEach(element => {
+    const windowHeight = window.innerHeight;
+    const elementTop = element.getBoundingClientRect().top;
+    if (elementTop < windowHeight - 100) {
+      element.classList.add("active");
+    }
+  });
+}
+window.addEventListener("scroll", reveal);
+
+// PARTICLES
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
-
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let particles = [];
-
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 120; i++) {
   particles.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    size: Math.random() * 2,
-    speedX: Math.random() * 0.5 - 0.25,
-    speedY: Math.random() * 0.5 - 0.25
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    size: Math.random()*2,
+    speedX: Math.random()*0.4-0.2,
+    speedY: Math.random()*0.4-0.2
   });
 }
 
 function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+  ctx.clearRect(0,0,canvas.width,canvas.height);
   particles.forEach(p => {
     p.x += p.speedX;
     p.y += p.speedY;
 
-    if (p.x > canvas.width || p.x < 0) p.speedX *= -1;
-    if (p.y > canvas.height || p.y < 0) p.speedY *= -1;
+    if(p.x<0||p.x>canvas.width) p.speedX*=-1;
+    if(p.y<0||p.y>canvas.height) p.speedY*=-1;
 
     ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(255,255,255,0.7)";
+    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    ctx.fillStyle="rgba(255,255,255,0.6)";
     ctx.fill();
   });
-
   requestAnimationFrame(animateParticles);
 }
-
 animateParticles();
 </script>
 
