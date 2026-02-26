@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Furisoa AI</title>
+<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -15,7 +16,7 @@
 }
 
 body {
-  margin: 0;
+  margin:0;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   transition: background 0.5s ease, color 0.5s ease;
   overflow-x: hidden;
@@ -25,118 +26,94 @@ body {
 body.dark { background: var(--bg-dark); color: var(--text-dark); }
 body.light { background: var(--bg-light); color: var(--text-light); }
 
-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
+canvas#particles { position: fixed; top:0; left:0; z-index:-1; width:100%; height:100%; }
 
 /* NAV */
 nav {
   position: fixed;
-  width: 100%;
-  padding: 20px 40px;
-  display: flex;
-  justify-content: space-between;
+  width:100%;
+  padding:20px 40px;
+  display:flex;
+  justify-content:space-between;
   backdrop-filter: blur(20px);
-  z-index: 1000;
+  z-index:1000;
 }
 
 .toggle {
-  cursor: pointer;
-  padding: 8px 18px;
-  border-radius: 20px;
-  border: 1px solid #aaa;
-  font-size: 14px;
+  cursor:pointer;
+  padding:8px 18px;
+  border-radius:50px;
+  border:none;
+  font-size:18px;
+  background:rgba(255,255,255,0.1);
+  color:white;
+  transition:0.3s;
 }
+
+.toggle:hover { background: rgba(255,255,255,0.2); }
 
 /* HERO */
 header {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
 }
 
-header h1 {
-  font-size: 4rem;
-  font-weight: 700;
-  letter-spacing: -1px;
-}
-
-header p {
-  font-size: 1.3rem;
-  opacity: 0.7;
-  margin-top: 15px;
-}
+header h1 { font-size:4rem; font-weight:700; letter-spacing:-1px; }
+header p { font-size:1.3rem; opacity:0.7; margin-top:15px; }
 
 /* COUNTDOWN */
-.countdown {
-  display: flex;
-  gap: 30px;
-  margin-top: 40px;
-}
-
-.countdown span {
-  font-size: 2rem;
-  font-weight: 600;
-}
+.countdown { display:flex; gap:30px; margin-top:40px; }
+.countdown span { font-size:2rem; font-weight:600; }
 
 /* SECTIONS */
-section {
-  padding: 140px 20px;
-  max-width: 1200px;
-  margin: auto;
-  text-align: center;
-}
+section { padding:140px 20px; max-width:1200px; margin:auto; text-align:center; }
+.reveal { opacity:0; transform: translateY(80px); transition: all 1s cubic-bezier(0.16,1,0.3,1);}
+.reveal.active { opacity:1; transform: translateY(0); }
 
 /* GLASS CARDS */
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 40px;
-  margin-top: 60px;
-}
-
+.cards { display:flex; flex-wrap:wrap; justify-content:center; gap:40px; margin-top:60px; }
 .card {
-  width: 300px;
-  padding: 40px 30px;
-  border-radius: 25px;
-  backdrop-filter: blur(20px);
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
+  width:300px;
+  padding:40px 30px;
+  border-radius:25px;
+  backdrop-filter:blur(20px);
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.15);
   transition: transform 0.5s ease, box-shadow 0.5s ease;
+  cursor:pointer;
 }
+.card:hover { transform: translateY(-15px) scale(1.03); box-shadow:0 30px 60px rgba(0,0,0,0.4); }
+.card h3 { font-size:1.5rem; margin-bottom:10px; }
+.card p { opacity:0.7; }
 
-.card:hover {
-  transform: translateY(-15px) scale(1.03);
-  box-shadow: 0 30px 60px rgba(0,0,0,0.4);
-}
+/* PRODUCT REVEAL */
+.product-showcase { position:relative; margin-top:80px; overflow:hidden; }
+.product-showcase img { width:80%; max-width:800px; transition: transform 1s ease; }
 
-.card h3 {
-  font-size: 1.5rem;
-}
+/* ORDER SECTION */
+.order-section { display:flex; flex-wrap:wrap; justify-content:center; gap:30px; margin-top:60px; }
+.order-card { width:280px; padding:30px; border-radius:25px; backdrop-filter:blur(15px); background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); transition:0.4s; }
+.order-card:hover { transform: translateY(-10px) scale(1.03); }
+.order-card h3 { font-size:1.5rem; }
+.order-card p { margin:15px 0; opacity:0.7; }
+.order-card button { padding:12px 28px; border:none; border-radius:25px; background: var(--accent); color:white; cursor:pointer; transition:0.3s; }
+.order-card button:hover { opacity:0.85; }
 
-.card p {
-  margin-top: 15px;
-  opacity: 0.7;
-}
+/* ABOUT */
+.about p { max-width:700px; margin:auto; opacity:0.7; }
 
-/* SCROLL ANIMATION */
-.reveal {
-  opacity: 0;
-  transform: translateY(80px);
-  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-}
+/* BUTTONS */
+button.primary { margin-top:30px; padding:14px 32px; border-radius:30px; border:none; background: var(--accent); color:white; font-size:16px; cursor:pointer; transition:0.3s;}
+button.primary:hover { opacity:0.85; }
 
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* SCROLL ZOOM */
+.scroll-zoom { transform: scale(0.9); transition: transform 0.5s ease; }
+.scroll-zoom.active { transform: scale(1); }
+
 </style>
 </head>
 
@@ -146,7 +123,7 @@ section {
 
 <nav>
   <h2>Furisoa AI</h2>
-  <div class="toggle" onclick="toggleMode()">Toggle Mode</div>
+  <div class="toggle" id="mode-toggle" onclick="toggleMode()">🌙</div>
 </nav>
 
 <header>
@@ -161,46 +138,48 @@ section {
   </div>
 </header>
 
-<section class="reveal">
-  <h2>Introducing Our Next Product</h2>
-  <p style="opacity:0.7; margin-top:20px;">
-    Designed with precision. Powered by intelligence. Built for the future.
-  </p>
+<section class="reveal product-showcase">
+  <h2>Product Reveal</h2>
+  <p style="opacity:0.7;">Experience Furisoa AI like never before.</p>
+  <img src="https://via.placeholder.com/800x400" class="scroll-zoom" id="product-image">
+</section>
 
-  <div class="cards">
+<section class="reveal about">
+  <h2>About the Company</h2>
+  <p>Furisoa AI is dedicated to building the most intelligent and elegant AI systems. Our mission is to blend creativity, speed, and precision into products that empower the world.</p>
+</section>
 
-    <div class="card">
-      <h3>⚡ Neural Core X</h3>
-      <p>Ultra-fast AI processing engine delivering real-time intelligence.</p>
-    </div>
+<section class="reveal order-section">
+  <h2>Pre-Order Our Products</h2>
 
-    <div class="card">
-      <h3>🧠 Adaptive Mind</h3>
-      <p>Self-learning architecture that evolves with your needs.</p>
-    </div>
+  <div class="order-card">
+    <h3>Furisoa Core</h3>
+    <p>High-performance AI engine for developers.</p>
+    <button>Pre-Order</button>
+  </div>
 
-    <div class="card">
-      <h3>🌐 Global Sync</h3>
-      <p>Seamless cloud integration across every device and platform.</p>
-    </div>
+  <div class="order-card">
+    <h3>Furisoa Mind</h3>
+    <p>Adaptive AI assistant for individuals and teams.</p>
+    <button>Pre-Order</button>
+  </div>
 
+  <div class="order-card">
+    <h3>Furisoa Pro</h3>
+    <p>Enterprise-level AI solution with cloud integration.</p>
+    <button>Pre-Order</button>
   </div>
 </section>
 
-<section class="reveal">
-  <h2>Engineered Like No Other</h2>
-  <p style="opacity:0.7; margin-top:20px; max-width:800px; margin:auto;">
-    Every detail is refined. Every interaction is fluid. Furisoa AI blends 
-    hardware-level performance with software-level intelligence to create 
-    a seamless digital experience inspired by world-class design philosophy.
-  </p>
-</section>
-
 <script>
-// DARK LIGHT
+// DARK/LIGHT TOGGLE
 function toggleMode() {
-  document.body.classList.toggle("dark");
-  document.body.classList.toggle("light");
+  const body = document.body;
+  const toggle = document.getElementById("mode-toggle");
+  body.classList.toggle("dark");
+  body.classList.toggle("light");
+  if(body.classList.contains("dark")) toggle.textContent = "🌙";
+  else toggle.textContent = "☀️";
 }
 
 // COUNTDOWN
@@ -208,60 +187,63 @@ const launchDate = new Date("July 1, 2026 00:00:00").getTime();
 setInterval(() => {
   const now = new Date().getTime();
   const distance = launchDate - now;
-
   document.getElementById("days").innerText = Math.floor(distance / (1000*60*60*24));
   document.getElementById("hours").innerText = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
   document.getElementById("minutes").innerText = Math.floor((distance % (1000*60*60)) / (1000*60));
   document.getElementById("seconds").innerText = Math.floor((distance % (1000*60)) / 1000);
-}, 1000);
+},1000);
 
-// SCROLL REVEAL
+// SCROLL REVEAL + ZOOM
 function reveal() {
   const reveals = document.querySelectorAll(".reveal");
-  reveals.forEach(element => {
-    const windowHeight = window.innerHeight;
-    const elementTop = element.getBoundingClientRect().top;
-    if (elementTop < windowHeight - 100) {
-      element.classList.add("active");
-    }
+  reveals.forEach(el => {
+    const top = el.getBoundingClientRect().top;
+    if(top < window.innerHeight - 100) el.classList.add("active");
   });
+
+  const productImg = document.getElementById("product-image");
+  const rect = productImg.getBoundingClientRect();
+  if(rect.top < window.innerHeight && rect.bottom > 0) {
+    productImg.classList.add("active");
+  }
 }
 window.addEventListener("scroll", reveal);
 
-// PARTICLES
+// PARTICLE BACKGROUND WITH GRADIENT
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let particles = [];
-for (let i = 0; i < 120; i++) {
-  particles.push({
-    x: Math.random()*canvas.width,
-    y: Math.random()*canvas.height,
-    size: Math.random()*2,
-    speedX: Math.random()*0.4-0.2,
-    speedY: Math.random()*0.4-0.2
-  });
+const colors = ["#00f5ff","#9d4edd","#ff00ff","#00ffea"];
+for(let i=0;i<150;i++){
+  particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*2+1, speedX: Math.random()*0.4-0.2, speedY: Math.random()*0.4-0.2, color: colors[Math.floor(Math.random()*colors.length)] });
 }
 
-function animateParticles() {
+function animateParticles(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  particles.forEach(p => {
-    p.x += p.speedX;
-    p.y += p.speedY;
+  const gradient = ctx.createLinearGradient(0,0,canvas.width,canvas.height);
+  gradient.addColorStop(0,"#ff007f");
+  gradient.addColorStop(0.5,"#00f5ff");
+  gradient.addColorStop(1,"#9d4edd");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    if(p.x<0||p.x>canvas.width) p.speedX*=-1;
-    if(p.y<0||p.y>canvas.height) p.speedY*=-1;
-
+  particles.forEach(p=>{
+    p.x += p.speedX; p.y += p.speedY;
+    if(p.x<0||p.x>canvas.width)p.speedX*=-1;
+    if(p.y<0||p.y>canvas.height)p.speedY*=-1;
     ctx.beginPath();
     ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-    ctx.fillStyle="rgba(255,255,255,0.6)";
+    ctx.fillStyle = p.color;
     ctx.fill();
   });
   requestAnimationFrame(animateParticles);
 }
 animateParticles();
+
+window.addEventListener("resize", ()=>{canvas.width=window.innerWidth; canvas.height=window.innerHeight;});
 </script>
 
 </body>
